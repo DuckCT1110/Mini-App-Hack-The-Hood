@@ -1,18 +1,26 @@
 body {
-    background-color: #F4FBFF;
-    text-align: center;
-    font-family: Arial;
+  background-color: #f4fbff;
+  text-align: center;
+  font-family: Arial;
 }
-h1{
-    color:#4A90E2;
+h1 {
+  color: #4a90e2;
 }
-#mascot{
-    font-size:100px;
+#mascot {
+  font-size: 100px;
 }
-#timer{
-    font-size:50px;
+#timer {
+  font-size: 50px;
 }
-button{
-    font-size:20px;
-    padding:10px 20px;
+button {
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 5px;
+}
+select {
+  font-size: 24px;
+  padding: 5px;
+}
+.hidden {
+  display: none;
 }

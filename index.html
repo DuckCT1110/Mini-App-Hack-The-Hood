@@ -1,17 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+  <head>
+    <title>BuddyQuest</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-    <title>IceBuddy</title>
-</head>
+  <body>
+    <h1>BuddyQuest</h1>
 
-<body>
-    <h1>IceBuddy</h1>
+    <!-- Time picker: only visible in "idle" state -->
+    <!-- (Might need to upgrade later) -->
+    <div id="timePicker">
+      <select id="hourSelect"></select>
+      :
+      <select id="minuteSelect"></select>
+    </div>
+
     <h2 id="timer">25:00</h2>
     <div id="mascot">🧊</div>
+
     <button id="startBtn">Start</button>
     <button id="pauseBtn">Pause</button>
-    <script src="script.js"></script>
-</body>
+    <button id="stopBtn" class="hidden">Cancel</button>
 
+    <!-- Supportive message shown when timer finishes -->
+    <p id="message" class="hidden"></p>
+
+    <script src="script.js"></script>
+  </body>
 </html>
