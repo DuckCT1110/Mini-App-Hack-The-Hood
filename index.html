@@ -9,18 +9,20 @@
     <h1>BuddyQuest</h1>
 
     <!-- Time picker: only visible in "idle" state -->
-    <!-- (Might need to upgrade later) -->
     <div id="timePicker">
-      <select id="hourSelect"></select>
-      :
-      <select id="minuteSelect"></select>
+      <div class="wheel-wrap">
+        <div class="wheel-highlight"></div>
+        <div class="wheel-picker" id="hourWheel"></div>
+        <span class="wheel-colon">:</span>
+        <div class="wheel-picker" id="minuteWheel"></div>
+      </div>
     </div>
 
     <h2 id="timer">25:00</h2>
     <div id="mascot">🧊</div>
 
     <button id="startBtn">Start</button>
-    <button id="pauseBtn">Pause</button>
+    <button id="pauseBtn" class="hidden">Pause</button>
     <button id="cancelBtn" class="hidden">Cancel</button>
 
     <!-- Supportive message shown when timer finishes -->

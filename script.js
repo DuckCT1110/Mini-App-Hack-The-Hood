@@ -5,25 +5,69 @@ const cancelButton = document.getElementById("cancelBtn");
 const timerDisplay = document.getElementById("timer");
 const mascot = document.getElementById("mascot");
 const messageEl = document.getElementById("message");
-const hourSelect = document.getElementById("hourSelect");
-const minuteSelect = document.getElementById("minuteSelect");
+const hourWheel = document.getElementById("hourWheel");
+const minuteWheel = document.getElementById("minuteWheel");
 const timePicker = document.getElementById("timePicker");
 
 // App state
 let totalSeconds = 0;
 let timerInterval = null;
 
-// Build the hour/minute dropdown options
-function buildSelectOptions(selectEl, max) {
+const ITEM_HEIGHT = 50; // match .wheel-item height in style.css
+
+let selectedHour = 0;
+let selectedMinute = 25;
+
+// Build one scrollable wheel of numbers 0..max
+function buildWheel(wheelEl, max, initialValue) {
+  wheelEl.innerHTML = ""; // clear anything already in there
+
+  const topSpacer = document.createElement("div");
+  topSpacer.className = "wheel-spacer";
+  wheelEl.appendChild(topSpacer);
+
   for (let i = 0; i <= max; i++) {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = i.toString().padStart(2, "0"); // "00"
-    selectEl.appendChild(option);
+    const item = document.createElement("div");
+    item.className = "wheel-item";
+    item.textContent = i.toString().padStart(2, "0");
+    wheelEl.appendChild(item);
   }
+
+  const bottomSpacer = document.createElement("div");
+  bottomSpacer.className = "wheel-spacer";
+  wheelEl.appendChild(bottomSpacer);
+
+  // jump to the starting value
+  wheelEl.scrollTop = initialValue * ITEM_HEIGHT;
 }
-buildSelectOptions(hourSelect, 5);
-buildSelectOptions(minuteSelect, 59);
+
+// Watch a wheel and report the settled value once scrolling stops
+function watchWheel(wheelEl, onSettle) {
+  let scrollTimer;
+  wheelEl.addEventListener("scroll", function () {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function () {
+      const index = Math.round(wheelEl.scrollTop / ITEM_HEIGHT);
+      wheelEl.scrollTo({ top: index * ITEM_HEIGHT, behavior: "smooth" });
+      onSettle(index);
+    }, 120);
+  });
+}
+
+buildWheel(hourWheel, 5, selectedHour);
+buildWheel(minuteWheel, 59, selectedMinute);
+
+watchWheel(hourWheel, function (val) {
+  selectedHour = val;
+});
+watchWheel(minuteWheel, function (val) {
+  selectedMinute = val;
+});
+
+// Reading the chosen time from the wheels
+function getChosenSeconds() {
+  return selectedHour * 3600 + selectedMinute * 60;
+}
 
 // Format helper
 function formatTime(totalSecs) {
@@ -46,6 +90,7 @@ function setUIState(state) {
     startButton.classList.remove("hidden");
     pauseButton.classList.add("hidden");
     cancelButton.classList.add("hidden");
+    cancelButton.textContent = "Cancel"; // reset
     messageEl.classList.add("hidden");
     mascot.textContent = "🧊";
     startButton.textContent = "Start";
@@ -74,13 +119,6 @@ function setUIState(state) {
     messageEl.textContent = "Great work! 🎉";
     mascot.textContent = "🥳";
   }
-}
-
-// Reading the chosen time from the dropdowns
-function getChosenSeconds() {
-  const hours = parseInt(hourSelect.value, 10);
-  const minutes = parseInt(minuteSelect.value, 10);
-  return hours * 3600 + minutes * 60;
 }
 
 // Start button

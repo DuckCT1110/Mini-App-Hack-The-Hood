@@ -17,10 +17,59 @@ button {
   padding: 10px 20px;
   margin: 5px;
 }
-select {
-  font-size: 24px;
-  padding: 5px;
-}
+
+/* Anything with this class is invisible and takes no space */
 .hidden {
   display: none;
+}
+
+/* Drum-style time picker */
+
+.wheel-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative; /* anchor for .wheel-highlight */
+  height: 150px;
+}
+
+.wheel-colon {
+  font-size: 28px;
+  color: #4a90e2;
+}
+
+.wheel-picker {
+  height: 150px;
+  width: 70px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none; /* Firefox */
+}
+.wheel-picker::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
+}
+
+.wheel-item {
+  height: 50px;
+  line-height: 50px;
+  font-size: 24px;
+  color: #999;
+  scroll-snap-align: center;
+}
+
+.wheel-spacer {
+  height: 50px; /* one empty row, top and bottom, so first/last items can center */
+}
+
+.wheel-highlight {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  height: 50px;
+  border-top: 2px solid #4a90e2;
+  border-bottom: 2px solid #4a90e2;
+  pointer-events: none; /* let scroll/click pass through to the wheels underneath */
+  z-index: 1;
 }
